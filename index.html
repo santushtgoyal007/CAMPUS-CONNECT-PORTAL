@@ -1,0 +1,747 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusConnect - Student Portal</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            color: #333;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: #172554;
+            padding: 14px 25px;
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-link {
+            color: white !important;
+            margin: 0 7px;
+            transition: 0.3s;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #93c5fd !important;
+        }
+
+        /* Main layout */
+        .main-content {
+            padding: 25px;
+        }
+
+        /* Page Navigation */
+        .page {
+            display: none;
+            animation: slide 0.5s ease;
+        }
+
+        /* Home visible by default */
+        #home {
+            display: block;
+        }
+
+        /* Hide Home only when another page is selected */
+        body:has(.page:target:not(#home)) #home {
+            display: none;
+        }
+
+        /* Show selected page */
+        .page:target {
+            display: block;
+            animation: slide 0.4s ease;
+        }
+
+        /* Home selected */
+        #home:target {
+            display: block;
+        }
+
+        @keyframes slide {
+            from {
+                opacity: 0;
+                transform: translateX(35px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Welcome section */
+        .welcome {
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            color: white;
+            padding: 35px;
+            border-radius: 18px;
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .welcome p {
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        /* Cards */
+        .dashboard-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+            transition: 0.3s;
+            height: 100%;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .card-number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 25px 0 18px;
+        }
+
+        /* Buttons */
+        .custom-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .custom-btn:hover {
+            background: #1e40af;
+            color: white;
+        }
+
+        /* Course cards */
+        .course-card {
+            background: white;
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+            height: 100%;
+            transition: 0.3s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .course-card h5 {
+            color: #1e3a8a;
+            font-weight: bold;
+        }
+
+        /* Notices */
+        .notice {
+            background: white;
+            border-left: 5px solid #2563eb;
+            padding: 18px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        /* Profile */
+        .profile-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #dbeafe;
+            font-size: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto auto 15px;
+        }
+
+        /* Login */
+        .login-box {
+            background: white;
+            max-width: 450px;
+            margin: 35px auto;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Feedback */
+        .feedback-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+        }
+
+        /* Footer */
+        footer {
+            background: #172554;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 40px;
+        }
+
+        footer p {
+            margin-bottom: 7px;
+        }
+
+        footer a {
+            color: #93c5fd;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 15px;
+            }
+
+            .welcome h1 {
+                font-size: 23px;
+            }
+
+            .welcome {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+
+        <a class="navbar-brand" href="#home">
+            🎓 CampusConnect
+        </a>
+
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMenu">
+
+            <ul class="navbar-nav ms-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#home">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#courses">Courses</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#notices">Notices</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#feedback">Feedback</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#profile">Profile</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#login">Login</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<!-- HOME PAGE -->
+<section id="home" class="main-content page">
+
+    <div class="welcome">
+        <h1>Hello, Aarav Sharma 👋</h1>
+        <p>Welcome to your student dashboard.</p>
+        <p>Manage your courses, notices and college activities in one place.</p>
+
+        <a href="#courses" class="btn btn-light mt-3">
+            Explore Courses →
+        </a>
+    </div>
+
+    <!-- Dashboard Cards -->
+    <div class="row g-4">
+
+        <div class="col-md-3 col-sm-6">
+            <div class="dashboard-card">
+                <div class="card-icon">📚</div>
+                <h5>Total Courses</h5>
+                <div class="card-number">6</div>
+                <p class="text-muted">Active subjects</p>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="dashboard-card">
+                <div class="card-icon">📅</div>
+                <h5>Attendance</h5>
+                <div class="card-number">82%</div>
+                <p class="text-muted">Overall attendance</p>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="dashboard-card">
+                <div class="card-icon">📝</div>
+                <h5>Assignments</h5>
+                <div class="card-number">3</div>
+                <p class="text-muted">Pending assignments</p>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="dashboard-card">
+                <div class="card-icon">📢</div>
+                <h5>Notices</h5>
+                <div class="card-number">4</div>
+                <p class="text-muted">Latest updates</p>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Quick Links -->
+    <h2 class="section-title">Quick Access</h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <h5>📚 My Courses</h5>
+                <p>View your subjects and course information.</p>
+                <a href="#courses" class="custom-btn">View Courses</a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <h5>📢 College Notices</h5>
+                <p>Check announcements and upcoming events.</p>
+                <a href="#notices" class="custom-btn">View Notices</a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <h5>💬 Teacher Feedback</h5>
+                <p>Share your suggestions and feedback.</p>
+                <a href="#feedback" class="custom-btn">Give Feedback</a>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- COURSES PAGE -->
+<section id="courses" class="main-content page">
+
+    <h2 class="section-title">📚 My Courses</h2>
+
+    <p class="text-muted">
+        Explore your semester subjects and course details.
+    </p>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="course-card">
+                <h5>💻 Fundamentals of Programming</h5>
+                <p>Learn programming concepts, algorithms and C language.</p>
+                <span class="badge bg-primary">Core Subject</span>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="course-card">
+                <h5>🔢 Discrete Mathematics</h5>
+                <p>Study logic, sets, relations and mathematical concepts.</p>
+                <span class="badge bg-success">Mathematics</span>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="course-card">
+                <h5>🌐 Web Development</h5>
+                <p>Learn HTML, CSS and responsive web design.</p>
+                <span class="badge bg-info">Practical</span>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="course-card">
+                <h5>⚡ Electrical Fundamentals</h5>
+                <p>Understand basic electrical circuits and components.</p>
+                <span class="badge bg-warning text-dark">Core Subject</span>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="course-card">
+                <h5>🧪 Engineering Chemistry</h5>
+                <p>Explore chemistry concepts used in engineering.</p>
+                <span class="badge bg-danger">Theory</span>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="course-card">
+                <h5>📖 Communication Skills</h5>
+                <p>Improve communication, presentation and writing skills.</p>
+                <span class="badge bg-secondary">Soft Skills</span>
+            </div>
+        </div>
+
+    </div>
+
+    <a href="#home" class="custom-btn mt-4">← Back to Home</a>
+
+</section>
+
+
+<!-- NOTICES PAGE -->
+<section id="notices" class="main-content page">
+
+    <h2 class="section-title">📢 College Notices</h2>
+
+    <p class="text-muted">
+        Stay updated with important college announcements.
+    </p>
+
+    <div class="notice">
+        <h5>📌 Internal Assessment</h5>
+        <p>Internal assessment examinations will begin next week.</p>
+        <small class="text-muted">Academic Notice</small>
+    </div>
+
+    <div class="notice">
+        <h5>📌 Assignment Submission</h5>
+        <p>Students are requested to submit their pending assignments before the deadline.</p>
+        <small class="text-muted">Department Notice</small>
+    </div>
+
+    <div class="notice">
+        <h5>📌 Technical Event</h5>
+        <p>A technical event is being organised for engineering students.</p>
+        <small class="text-muted">Event Announcement</small>
+    </div>
+
+    <div class="notice">
+        <h5>📌 Library Update</h5>
+        <p>Library timings have been updated for examination preparation.</p>
+        <small class="text-muted">Library Notice</small>
+    </div>
+
+    <a href="#home" class="custom-btn mt-3">← Back to Home</a>
+
+</section>
+
+
+<!-- FEEDBACK PAGE -->
+<section id="feedback" class="main-content page">
+
+    <h2 class="section-title">💬 Teacher Feedback</h2>
+
+    <p class="text-muted">
+        Share your feedback to help improve the learning experience.
+    </p>
+
+    <div class="feedback-box">
+
+        <form action="#feedback">
+
+            <div class="mb-3">
+                <label class="form-label">Student Name</label>
+
+                <input type="text"
+                       class="form-control"
+                       value="Aarav Sharma"
+                       readonly>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Select Teacher</label>
+
+                <select class="form-select" required>
+
+                    <option value="">Choose Teacher</option>
+                    <option>Prof. Sharma</option>
+                    <option>Prof. Patel</option>
+                    <option>Prof. Deshmukh</option>
+                    <option>Prof. Verma</option>
+
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Subject</label>
+
+                <select class="form-select" required>
+
+                    <option value="">Select Subject</option>
+                    <option>Fundamentals of Programming</option>
+                    <option>Discrete Mathematics</option>
+                    <option>Web Development</option>
+                    <option>Electrical Fundamentals</option>
+
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Rating</label>
+
+                <select class="form-select" required>
+
+                    <option value="">Select Rating</option>
+                    <option>⭐⭐⭐⭐⭐ Excellent</option>
+                    <option>⭐⭐⭐⭐ Very Good</option>
+                    <option>⭐⭐⭐ Good</option>
+                    <option>⭐⭐ Average</option>
+                    <option>⭐ Needs Improvement</option>
+
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Your Feedback</label>
+
+                <textarea class="form-control"
+                          rows="4"
+                          placeholder="Write your feedback here..."
+                          required></textarea>
+            </div>
+
+            <button type="submit" class="custom-btn">
+                Submit Feedback
+            </button>
+
+        </form>
+
+    </div>
+
+    <a href="#home" class="custom-btn mt-3">← Back to Home</a>
+
+</section>
+
+
+<!-- PROFILE PAGE -->
+<section id="profile" class="main-content page">
+
+    <h2 class="section-title">👤 Student Profile</h2>
+
+    <div class="profile-box">
+
+        <div class="profile-avatar">
+            👨‍🎓
+        </div>
+
+        <h3>Aarav Sharma</h3>
+
+        <p class="text-muted">
+            Computer Science Engineering Student
+        </p>
+
+        <hr>
+
+        <div class="row text-start">
+
+            <div class="col-md-6 mb-3">
+                <strong>Student ID:</strong>
+                <p>2026CSE001</p>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong>Course:</strong>
+                <p>B.Tech CSE</p>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong>Semester:</strong>
+                <p>First Semester</p>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong>Attendance:</strong>
+                <p>82%</p>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong>Email:</strong>
+                <p>aarav@example.com</p>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong>Academic Year:</strong>
+                <p>2026-2027</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <a href="#home" class="custom-btn mt-3">← Back to Home</a>
+
+</section>
+
+
+<!-- LOGIN PAGE -->
+<section id="login" class="main-content page">
+
+    <div class="login-box">
+
+        <div class="text-center mb-4">
+
+            <h2>🎓 CampusConnect</h2>
+
+            <p class="text-muted">
+                Student Portal Login
+            </p>
+
+        </div>
+
+        <form action="#home">
+
+            <div class="mb-3">
+                <label class="form-label">Student Name</label>
+
+                <input type="text"
+                       class="form-control"
+                       placeholder="Enter your name"
+                       value="Aarav Sharma"
+                       required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Student ID</label>
+
+                <input type="text"
+                       class="form-control"
+                       placeholder="Enter Student ID"
+                       value="2026CSE001"
+                       required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+
+                <input type="password"
+                       class="form-control"
+                       placeholder="Enter password"
+                       required>
+            </div>
+
+            <button type="submit" class="custom-btn w-100">
+                Login
+            </button>
+
+        </form>
+
+        <p class="text-center mt-3 text-muted">
+            Student access portal
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+
+    <h5>🎓 CampusConnect</h5>
+
+    <p class="mb-2">
+        Connecting Students with Campus Life
+    </p>
+
+    <p>Academic frontend demonstration</p>
+
+    <p>
+        🔒 Security Reference: ISO/IEC 27001
+    </p>
+
+    <small>
+        © 2026 CampusConnect | Student Project
+    </small>
+
+</footer>
+
+
+<!-- Bootstrap JS for mobile navbar -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
